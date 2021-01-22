@@ -1,6 +1,16 @@
 
 # restore packages from renv lock file
-renv::restore()
+# renv::restore()
+renv::status()
+renv::snapshot()
+
+# require(devtools)
+# install.packages("pkgbuild")
+# install.packages("devtools")
+# install_version("BH", version = "1.72.0-3", repos = "http://cran.us.r-project.org")
+
+# install_version("yardstick", version = "0.0.7", repos = "http://cran.us.r-project.org")
+
 
 # load here package
 library(here)
@@ -82,7 +92,8 @@ plan = drake_plan(
                                  optimal_sd = 0.02),
 
   # plot performance of all models (including featureless/optimal) together
-  baseline_plot = plot_baseline_models(bounding_models,
+  # baseline_plot = 
+    plot_baseline_models(bounding_models,
                                     resamples,
                                     num = 50,
                                     display_metric = "accuracy"),
@@ -133,12 +144,14 @@ plan = drake_plan(
                             target = "two_year_recid"),
   
   # generate feature importance plots from the iml objects
-  permutation_plots = plot_permutation_importance(iml_preds, 
+  # permutation_plots = 
+    plot_permutation_importance(iml_preds, 
                                                   model_names = c("logistic_regression", "random_forest"),
                                                   mode = "classification"),
   
   # generate partial dependence plots from iml objects
-  global_plots = plot_global_interp(iml_preds, 
+  # global_plots = 
+    plot_global_interp(iml_preds, 
                                     model_names = c("logistic_regression", "random_forest"),
                                     display_feature = "priors_count"),
   
@@ -160,12 +173,14 @@ plan = drake_plan(
     bind_rows(),
   
   # plot accuracy of each model across each of the protected groups 
-  protected_metrics_plot_acc = plot_protected_metrics(protected_metrics, 
+  # protected_metrics_plot_acc = 
+    plot_protected_metrics(protected_metrics, 
                                                       protected = "race_protected", 
                                                       display_metric = "accuracy"),
   
   # plot false positive rates for each model across each of the protected groups
-  fp_error_direction_plot = plot_error_direction(predictions, 
+  # fp_error_direction_plot = 
+    plot_error_direction(predictions, 
                                                  mode = "classification",
                                                  display_feature = "race_protected", 
                                                  false_positive = TRUE, 
@@ -182,12 +197,14 @@ plan = drake_plan(
                                           privileged = "Caucasian"),
   
   # plot the relative error rates of each of the models across protected groups
-  error_plot = plot_fairness_metrics(fairness_metrics, 
+  # error_plot = 
+    plot_fairness_metrics(fairness_metrics, 
                                      display_feature = "race_protected",
                                      metric = "error_rate"),
   
   # plot relative false positive rates for each model across each of the protected groups
-  fpr_plot = plot_fairness_metrics(fairness_metrics, 
+  # fpr_plot = 
+    plot_fairness_metrics(fairness_metrics, 
                                    display_feature = "race_protected",
                                    metric = "fpr"),
   
@@ -225,12 +242,14 @@ plan = drake_plan(
     bind_rows(),
   
   # plot accuracy of each model across each of the protected groups 
-  opt_protected_metrics_plot_acc = plot_protected_metrics(opt_protected_metrics, 
+  # opt_protected_metrics_plot_acc = 
+    plot_protected_metrics(opt_protected_metrics, 
                                                       protected = "race", 
                                                       display_metric = "accuracy"),
   
   # plot false positive rate of each model across each of the protected groups 
-  opt_fp_error_direction_plot = plot_error_direction(mitigated_predictions, 
+  # opt_fp_error_direction_plot = 
+    plot_error_direction(mitigated_predictions, 
                                                  mode = "classification",
                                                  display_feature = "race_protected", 
                                                  false_positive = TRUE, 
@@ -247,18 +266,21 @@ plan = drake_plan(
                                               privileged = "Caucasian"),
   
   # plot the relative error rates of each of the models across protected groups
-  opt_error_plot = plot_fairness_metrics(opt_fairness_metrics, 
+  # opt_error_plot = 
+    plot_fairness_metrics(opt_fairness_metrics, 
                                      display_feature = "race_protected",
                                      metric = "error_rate"),
   
   # plot relative false positive rates for each model across each of the protected groups
-  opt_fpr_plot = plot_fairness_metrics(opt_fairness_metrics, 
+  # opt_fpr_plot = 
+    plot_fairness_metrics(opt_fairness_metrics, 
                                    display_feature = "race_protected",
                                    metric = "fpr"),
   
   # plot relative false positive rates across groups for the models without
   # "optimal" classification thresholds and those with them
-  fairness_fpr_comparison = plot_fairness_comparison(fairness_metrics, 
+  # fairness_fpr_comparison = 
+    plot_fairness_comparison(fairness_metrics, 
                                                      opt_fairness_metrics,
                                                      model = "random_forest",
                                                      display_feature = "race_protected", 
@@ -266,7 +288,8 @@ plan = drake_plan(
   
   # plot error rates across groups for the models without
   # "optimal" classification thresholds and those with them
-  error_fpr_comparison = plot_error_comparison(pred_data_orig,
+  # error_fpr_comparison = 
+    plot_error_comparison(pred_data_orig,
                         mitigated_predictions,
                         mode = "classification",
                         display_feature = "race",
@@ -278,5 +301,7 @@ plan = drake_plan(
 
 # execute the plan
 make(plan)
-
+# install.packages(c("kknn"))
+# install.packages("kernlab")
+# install.packages("randomForest")
 
